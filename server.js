@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 
@@ -7,11 +8,11 @@ app.use(express.urlencoded({extended: false}));
 var AccessToken = require("twilio").jwt.AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
 
-//Make it Private .
 // Substitute your Twilio AccountSid and ApiKey details
-var ACCOUNT_SID = "AC8c98b68a5f547d3e8c971bfd0df293de";
-var API_KEY_SID = "SK96c64e000cab419a48112716eca28388";
-var API_KEY_SECRET = "NStABqRQA5KXWdOUyQL2SzEYuwy50pKs";
+
+var ACCOUNT_SID = process.env.ACCOUNT_SID;
+var API_KEY_SID = process.env.API_KEY_SID;
+var API_KEY_SECRET = process.env.API_KEY_SECRET;
 
 // Create an Access Token
 var accessToken = new AccessToken(ACCOUNT_SID, API_KEY_SID, API_KEY_SECRET);
@@ -33,7 +34,7 @@ app.post("/api/token/:userId", (req, res) => {
 	accessToken.addGrant(grant);
 	// Serialize the token as a JWT
 	var jwt = accessToken.toJwt();
-	// console.log(jwt);
+
 	res.status(200).json({
 		token: jwt,
 	});
